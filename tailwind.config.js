@@ -38,6 +38,7 @@ module.exports = {
         800: "#423D33",
         900: "#27241D",
       },
+      light: "#FFFFFF",
     },
     fontFamily: {
       display: ["Inter", "system-ui", "sans-serif"],
