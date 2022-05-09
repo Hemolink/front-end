@@ -4,12 +4,14 @@ import { About } from "./About";
 import { Appointment } from "./Appointment";
 import { Donate } from "./Donate";
 import { Home } from "./Home";
+import { Login } from "./Login";
 
 export const route = {
   home: "/",
   about: "/sobre",
   donate: "/porque-doar",
   appointment: "/agendamento",
+  login: "/login",
 };
 
 export const Routes = () => {
@@ -21,6 +23,7 @@ export const Routes = () => {
         <Route path={route.about} element={<About />} />
         <Route path={route.appointment} element={<Donate />} />
         <Route path={route.donate} element={<Appointment />} />
+        <Route path={route.login} element={<Login />} />
       </RouterRoutes>
     </>
   );
