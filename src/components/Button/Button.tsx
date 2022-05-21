@@ -5,5 +5,9 @@ export interface ButtonProps {
 }
 
 export const Button = ({ children }: ButtonProps) => {
-  return <button>{children}</button>;
+  return (
+    <button className="testestes" onClick={() => console.log("RonaldViadao")}>
+      {children}
+    </button>
+  );
 };
