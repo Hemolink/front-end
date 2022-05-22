@@ -16,7 +16,7 @@ interface ItemProps {
 
 const Item = ({ id, text, selected, onClick }: ItemProps) => (
   <div
-    className={`bg-primary-100 py-1 px-2 rounded cursor-pointer text-primary-900 font-semibold hover:bg-primary-50 ${
+    className={`bg-primary-100 py-1 px-2 rounded cursor-pointer text-primary-900 font-semibold hover:bg-primary-50 my-7 ${
       selected ? "bg-primary-800 text-neutral-50 hover:bg-primary-500" : ""
     }`}
     onClick={() => onClick(id)}

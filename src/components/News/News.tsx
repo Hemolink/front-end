@@ -11,7 +11,9 @@ interface NewsProps {
 export const News = ({ content }: NewsProps) => {
   return (
     <section>
-      <h2>Ultimas Noticias</h2>
+      <h2 className="text-xl my-2 text-center text-primary-900">
+        Ultimas Noticias
+      </h2>
       {content.map((item) => (
         <NewsItem
           key={item.title}

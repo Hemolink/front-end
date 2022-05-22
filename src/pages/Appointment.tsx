@@ -25,29 +25,55 @@ export const Appointment = ({}: Props) => {
   const [value, setValue] = React.useState<Date | null>(null);
 
   return (
-    <div className="grid grid-cols-2">
-      <section>
-        <h2>Agendamento</h2>
-        <DatePicker
-          label="Data"
-          value={value}
-          onChange={(newValue) => {
-            setValue(newValue);
-          }}
-          renderInput={(params) => <TextField {...params} variant="standard" />}
-        />
-        <TimeSelector availableHours={mock} />
-        <Button>Agendar</Button>
-      </section>
-      <section>
-        <h2>Informações importantes</h2>
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quo delectus
-          ipsum architecto quisquam pariatur magnam qui temporibus placeat iste
-          ratione, nam dignissimos fugiat quos vitae quasi blanditiis facere
-          unde. Esse.
-        </p>
-      </section>
-    </div>
+    <>
+      {/* <h1 className="text-3xl my-5 ">Agendamento</h1> */}
+      <div className="grid grid-cols-2 ">
+        <section className="content-center">
+          <DatePicker
+            label="Data"
+            value={value}
+            onChange={(newValue) => {
+              setValue(newValue);
+            }}
+            renderInput={(params) => (
+              <TextField {...params} variant="standard" />
+            )}
+          />
+          <TimeSelector availableHours={mock} />
+          <Button>Agendar</Button>
+        </section>
+        <section className=" text-primary-900">
+          <h2 className="text-2xl my-8 text-center">Informações importantes</h2>
+          <p className="text-xl">
+            O preenchimento do e-mail não é obrigatório. Porém, ao informá-lo
+            você receberá uma mensagem com todos os dados do agendamento
+            realizado. É necessário guardar o número de protocolo para consultar
+            ou cancelar seu agendamento. Comparecer à unidade com, no mínimo, 15
+            minutos de antecedência em relação ao horário agendado.
+          </p>
+          <ul className="list-disc ml-5">
+            <li>
+              A idade para doação de sangue é entre 16 e 69 anos. Jovens de 16 e
+              17 anos e maiores de 60 anos devem consultar condições especiais
+              clicando aqui.
+            </li>
+            <li>
+              Quem já doou, deve observar o prazo entre doações de sangue.
+              Homens: 60 dias e até 4 vezes por ano; Mulheres: 90 dias e até 3
+              vezes por ano.
+            </li>
+            <li>
+              Saiba mais sobre os critérios adicionais para a doação de sangue
+              referentes ao COVID-19, clicando aqui.
+            </li>
+            <li>
+              Para saber as condições e restrições para a doação de sangue,
+              clique aqui.
+            </li>
+            <li>Para mais informações sobre este serviço, clique aqui.</li>
+          </ul>
+        </section>
+      </div>
+    </>
   );
 };

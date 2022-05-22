@@ -15,7 +15,9 @@
 
 ### Homepage
 
-- [ ] Colocar as imagens do carousel e avaliar se não vai haver quebra
+- [x] Colocar as imagens do carousel e avaliar se não vai haver quebra
+- [ ] Corrigir quebra carousel
+- [ ] Ativar passagem altomatica de imagem no carousel
 - [ ] Estilizar seção de notícias
 - [ ] Estilizar banco de sangue
 - [ ] Atualizar mostrador do nível de banco de sangue

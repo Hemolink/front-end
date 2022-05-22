@@ -5,6 +5,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Banner from "../assets/carousel/banner_site_doador.png";
+import Banner2 from "../assets/carousel/banner_Hemo.jpg";
+import Banner3 from "../assets/carousel/banner_doacao.jpeg";
 import { BloodBank } from "../components/BloodBank";
 import { News } from "../components/News";
 
@@ -71,9 +73,12 @@ export const Home = (props: Props) => {
         <SwiperSlide>
           <img src={Banner} alt="Banner" />
         </SwiperSlide>
-        <SwiperSlide>Slide 2</SwiperSlide>
-        <SwiperSlide>Slide 3</SwiperSlide>
-        <SwiperSlide>Slide 4</SwiperSlide>
+        <SwiperSlide>
+          <img src={Banner2} alt="Banner" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src={Banner3} alt="Banner" />
+        </SwiperSlide>
       </Swiper>
 
       <div className="grid grid-cols-2">
