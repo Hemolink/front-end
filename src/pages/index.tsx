@@ -6,6 +6,7 @@ import { Donate } from "./Donate";
 import { Home } from "./Home";
 import Layout from "./Layout";
 import { Login } from "./Login";
+import { Register } from "./Register";
 
 export const route = {
   home: "/",
@@ -13,6 +14,7 @@ export const route = {
   donate: "/porque-doar",
   appointment: "/agendamento",
   login: "/login",
+  register: "/register",
 };
 
 export const Routes = () => {
@@ -26,6 +28,7 @@ export const Routes = () => {
           <Route path={route.donate} element={<Donate />} />
           <Route path={route.appointment} element={<Appointment />} />
           <Route path={route.login} element={<Login />} />
+          <Route path={route.register} element={<Register />} />
         </RouterRoutes>
       </Layout>
     </>

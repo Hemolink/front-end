@@ -1,7 +1,9 @@
 import { KeyIcon, UserCircleIcon } from "@heroicons/react/outline";
+import { TextField } from "@mui/material";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Button, Input } from "../components";
+import LoginThumb from "../assets/login-thumb.jpg";
+import { Button } from "../components";
 
 type LoginFormData = {
   email: string;
@@ -16,23 +18,27 @@ export const Login = () => {
   };
 
   return (
-    <div className="flex justify-between h-screen">
+    <div className="grid grid-cols-2 gap-6 h-fill mt-8">
       <div>
-        <img src="../assets/login-thumb.jpg" alt="Doe sangue" />
+        <img src={LoginThumb} alt="Doe sangue" />
       </div>
 
-      <div className="flex">
-        <h1>Login</h1>
+      <div className="flex flex-col">
+        <h1 className="text-3xl font-bold mb-8">Login</h1>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <UserCircleIcon />
-            <Input placeholder="Email" {...register("email")} />
+          <div className="flex items-center gap-3 mb-4">
+            <UserCircleIcon className="w-12 h-12" />
+            <TextField variant="filled" label="Email" {...register("email")} />
           </div>
 
-          <div>
-            <KeyIcon />
-            <Input placeholder="Senha" {...register("password")} />
+          <div className="flex items-center gap-3 mb-4">
+            <KeyIcon className="w-12 h-12" />
+            <TextField
+              variant="filled"
+              label="Senha"
+              {...register("password")}
+            />
           </div>
 
           <Button>Login</Button>

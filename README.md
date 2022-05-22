@@ -30,6 +30,11 @@
 - [ ] Gerenciamento de estado do form
 - [ ] Padronização das interações (hover, pressed, focus)
 
+### Login e Cadastro
+- [ ] Colocar máscara para telefone no input
+- [ ] Garantir campos obrigatórios
+- [ ] Password confirmation tratado no frontend
+
 <!-- https://heroicons.com/ -->
 <!-- https://headlessui.dev/react/ -->
 <!-- https://tailwindui.com/ -->

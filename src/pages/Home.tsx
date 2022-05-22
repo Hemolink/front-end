@@ -4,13 +4,11 @@ import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
-import Banner from "../assets/carousel/banner_site_doador.png";
-import Banner2 from "../assets/carousel/banner_Hemo.jpg";
 import Banner3 from "../assets/carousel/banner_doacao.jpeg";
+import Banner2 from "../assets/carousel/banner_Hemo.jpg";
+import Banner from "../assets/carousel/banner_site_doador.png";
 import { BloodBank } from "../components/BloodBank";
 import { News } from "../components/News";
-
-type Props = {};
 
 const news = [
   {
@@ -56,9 +54,14 @@ const bloodBank = [
     type: "B-",
     level: "high",
   },
+  {
+    id: 5,
+    type: "X-",
+    level: "medium",
+  },
 ];
 
-export const Home = (props: Props) => {
+export const Home = () => {
   return (
     <div>
       <Swiper
