@@ -1,5 +1,6 @@
 import { CakeIcon, CloudIcon } from "@heroicons/react/outline";
 import React from "react";
+import { useQuery } from "react-query";
 import { Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -9,6 +10,7 @@ import Banner2 from "../assets/carousel/banner_Hemo.jpg";
 import Banner from "../assets/carousel/banner_site_doador.png";
 import { BloodBank } from "../components/BloodBank";
 import { News } from "../components/News";
+import { api } from "../services/api";
 
 const news = [
   {
@@ -62,6 +64,10 @@ const bloodBank = [
 ];
 
 export const Home = () => {
+  const { isLoading, error, data } = useQuery("blood-bank", () =>
+    api.get("/sangue")
+  );
+
   return (
     <div>
       <Swiper
@@ -86,7 +92,8 @@ export const Home = () => {
 
       <div className="grid grid-cols-2">
         <News content={news} />
-        <BloodBank content={bloodBank} />
+        {isLoading && <span>Carregando...</span>}
+        {!isLoading && <BloodBank content={bloodBank} />}
       </div>
     </div>
   );
