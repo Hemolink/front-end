@@ -39,37 +39,52 @@ const bloodBank = [
   {
     id: 1,
     type: "A+",
-    level: "low",
+    level: 10,
   },
   {
     id: 2,
     type: "A-",
-    level: "low",
+    level: 10,
   },
   {
     id: 3,
     type: "B+",
-    level: "medium",
+    level: 45,
   },
   {
     id: 4,
     type: "B-",
-    level: "high",
+    level: 100,
   },
   {
     id: 5,
     type: "X-",
-    level: "medium",
+    level: 55,
+  },
+  {
+    id: 6,
+    type: "X-",
+    level: 50,
+  },
+  {
+    id: 7,
+    type: "X-",
+    level: 34,
+  },
+  {
+    id: 8,
+    type: "X-",
+    level: 88,
   },
 ];
 
 export const Home = () => {
-  const { isLoading, error, data } = useQuery("blood-bank", () =>
-    api.get("/sangue")
-  );
+  // const { isLoading, error, data } = useQuery("blood-bank", () =>
+  //   api.get("/sangue")
+  // );
 
   return (
-    <div>
+    <div className="mb-14">
       <Swiper
         className="w-full h-auto"
         navigation={true}
@@ -92,8 +107,9 @@ export const Home = () => {
 
       <div className="grid grid-cols-2">
         <News content={news} />
-        {isLoading && <span>Carregando...</span>}
-        {!isLoading && <BloodBank content={bloodBank} />}
+        {/* {isLoading && <span>Carregando...</span>}
+        {!isLoading && <BloodBank content={bloodBank} />} */}
+        <BloodBank content={bloodBank} />
       </div>
     </div>
   );
