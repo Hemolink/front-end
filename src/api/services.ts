@@ -1,6 +1,5 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "https://localhost:5001/api",
-  timeout: 1000,
+  baseURL: "https://localhost:7275/api", // TODO: change to .env
 });
