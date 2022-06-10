@@ -1,28 +1,32 @@
 import React from "react";
-import { Navigation } from "swiper";
-import "swiper/css";
-import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useGetBloodLevels } from "../api";
-import Banner3 from "../assets/carousel/banner_doacao.jpeg";
-import Banner2 from "../assets/carousel/banner_Hemo.jpg";
-import Banner from "../assets/carousel/banner_site_doador.png";
+import { Navigation, Pagination } from "swiper";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css";
+
 import { BloodBank } from "../components/BloodBank";
 import { News } from "../components/News";
 import { newsData } from "../content/news";
+import { useGetBloodLevels } from "../api";
+
+import Banner from "../assets/carousel/banner_site_doador.png";
+import Banner2 from "../assets/carousel/banner_Hemo.jpg";
+import Banner3 from "../assets/carousel/banner_doacao.jpeg";
 
 export const Home = () => {
   const { isLoading, data } = useGetBloodLevels();
 
   return (
-    <div className="mb-14">
+    <>
       <Swiper
-        className="w-full h-auto"
-        navigation={true}
-        modules={[Navigation]}
+        className="w-full h-[450px]"
+        modules={[Navigation, Pagination]}
         slidesPerView={1}
-        onSlideChange={() => console.log("slide change")}
-        onSwiper={(swiper) => console.log(swiper)}
+        navigation={true}
+        pagination={{
+          clickable: true,
+        }}
       >
         <SwiperSlide>
           <img src={Banner} alt="Banner" />
@@ -35,10 +39,10 @@ export const Home = () => {
         </SwiperSlide>
       </Swiper>
 
-      <div className="grid grid-cols-2">
+      <div className="grid grid-cols-2 mt-8 gap-4">
         <News content={newsData} />
         <BloodBank isLoading={isLoading} content={data ?? []} />
       </div>
-    </div>
+    </>
   );
 };

@@ -4,12 +4,10 @@ interface LayoutProps {
   children: JSX.Element;
 }
 
-const Layout = ({ children }: LayoutProps) => {
+export const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="w-full h-full flex justify-center">
-      <div className="w-[1200px] min-h-screen">{children}</div>
+      <div className="w-[1200px]">{children}</div>
     </div>
   );
 };
-
-export default Layout;

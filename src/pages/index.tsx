@@ -4,7 +4,7 @@ import { About } from "./About";
 import { Appointment } from "./Appointment";
 import { Donate } from "./Donate";
 import { Home } from "./Home";
-import Layout from "./Layout";
+import { Layout } from "./Layout";
 import { Login } from "./Login";
 import { Register } from "./Register";
 

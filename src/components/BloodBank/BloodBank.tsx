@@ -13,7 +13,7 @@ interface BloodBankProps {
 
 export const BloodBank = ({ content, isLoading }: BloodBankProps) => (
   <div>
-    <h2 className="text-xl my-2 text-center text-primary-900 mb-8">
+    <h2 className="text-2xl my-2 text-center text-primary-900 mb-8">
       Níveis do Banco de Sangue
     </h2>
     {!isLoading && (

@@ -17,9 +17,4 @@ export const newsData = [
     title: "Campanhas de doação de sangue.",
     url: "",
   },
-  {
-    icon: <CloudIcon />,
-    title: "Ronaldo brilha muito no corinthians",
-    url: "",
-  },
 ];
