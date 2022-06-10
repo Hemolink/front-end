@@ -1,7 +1,8 @@
-import { Popover } from "@headlessui/react";
-import { MenuIcon } from "@heroicons/react/outline";
 import React from "react";
 import { Link } from "react-router-dom";
+import { Popover } from "@headlessui/react";
+import { MenuIcon } from "@heroicons/react/outline";
+
 import { route } from "../../pages";
 
 export const Header = () => {

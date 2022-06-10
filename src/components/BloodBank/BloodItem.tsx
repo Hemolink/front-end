@@ -1,4 +1,5 @@
 import React from "react";
+
 import Blood00 from "../../assets/bloodLevel/00.svg";
 import Blood20 from "../../assets/bloodLevel/20.svg";
 import Blood40 from "../../assets/bloodLevel/40.svg";

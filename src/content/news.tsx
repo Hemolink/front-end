@@ -1,5 +1,5 @@
-import { CakeIcon, CloudIcon } from "@heroicons/react/outline";
 import React from "react";
+import { CakeIcon, CloudIcon } from "@heroicons/react/outline";
 
 export const newsData = [
   {
