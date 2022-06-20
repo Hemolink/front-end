@@ -3,8 +3,8 @@ import NewsItem from "./NewsItem";
 
 interface NewsProps {
   content: Array<{
-    icon: JSX.Element;
     title: string;
+    url: string;
   }>;
 }
 
@@ -16,7 +16,7 @@ export const News = ({ content }: NewsProps) => {
       </h2>
       <div className="flex gap-4 flex-col">
         {content.map((item) => (
-          <NewsItem key={item.title} icon={item.icon} title={item.title} />
+          <NewsItem key={item.title} title={item.title} url={item.url} />
         ))}
       </div>
     </section>

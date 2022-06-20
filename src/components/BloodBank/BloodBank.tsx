@@ -1,7 +1,7 @@
 import React from "react";
-import { CircularProgress } from "@mui/material";
 
 import { BloodItem } from "./BloodItem";
+import { LoadingFeedback } from "../Feedback";
 
 interface BloodBankProps {
   content: Array<{
@@ -23,10 +23,6 @@ export const BloodBank = ({ content, isLoading }: BloodBankProps) => (
         ))}
       </div>
     )}
-    {isLoading && (
-      <div className="flex items-center justify-center text-primary-600">
-        <CircularProgress color="inherit" />
-      </div>
-    )}
+    {isLoading && <LoadingFeedback />}
   </div>
 );

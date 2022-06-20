@@ -39,6 +39,7 @@ module.exports = {
         900: "#27241D",
       },
       light: "#FFFFFF",
+      transparent: "transparent",
     },
     fontFamily: {
       display: ["Inter", "system-ui", "sans-serif"],

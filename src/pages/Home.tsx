@@ -39,7 +39,7 @@ export const Home = () => {
         </SwiperSlide>
       </Swiper>
 
-      <div className="grid grid-cols-2 mt-8 gap-4">
+      <div className="grid grid-cols-2 my-8 gap-4">
         <News content={newsData} />
         <BloodBank isLoading={isLoading} content={data ?? []} />
       </div>

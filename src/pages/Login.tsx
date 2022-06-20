@@ -1,98 +1,129 @@
 import React from "react";
-import { KeyIcon, UserCircleIcon } from "@heroicons/react/outline";
+import { Link, useNavigate } from "react-router-dom";
+import * as Yup from "yup";
 import { SubmitHandler, useForm } from "react-hook-form";
-import LoginThumb from "../assets/login-thumb.jpg";
-import { Button } from "../components";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+import { Button, Input } from "../components";
+import { login } from "../api";
+import { SuccessFeedback } from "../components/Feedback";
+import { ErrorFeedback } from "../components/Feedback/ErrorFeedback";
+import { useQueryClient } from "react-query";
 
 type LoginFormData = {
   email: string;
   password: string;
 };
 
-export const Login = () => {
-  const { handleSubmit, register } = useForm<LoginFormData>();
+const validationSchema = Yup.object().shape({
+  email: Yup.string()
+    .email("Formato de email inválido")
+    .required("Campo Email é obrigatório"),
+  password: Yup.string().required("Campo Senha é obrigatório"),
+});
 
-  const onSubmit: SubmitHandler<LoginFormData> = (data) => {
+export const Login = () => {
+  const formOptions = { resolver: yupResolver(validationSchema) };
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<LoginFormData>(formOptions);
+
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const [success, setSuccess] = React.useState<boolean | null>(null);
+
+  const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     console.log(data);
+
+    const response = await login(data.email);
+
+    if (response.password === data.password) {
+      setSuccess(true);
+      queryClient.invalidateQueries("donors");
+    } else {
+      setSuccess(false);
+    }
   };
 
   return (
     <div className="flex justify-center items-center h-full">
       <div className="p-4 w-96 bg-light rounded-lg border border-neutral-200 shadow-md sm:p-6 lg:p-8">
-        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-          <h5 className="text-xl font-medium text-neutral-900">
-            Entre na nossa plataforma
-          </h5>
-          <div>
-            <label
-              htmlFor="email"
-              className="block mb-2 text-sm font-medium text-neutral-900"
-            >
-              Seu email
-            </label>
-            <input
-              {...register("email", { required: true })}
+        {success === true && (
+          <SuccessFeedback
+            onComplete={() => {
+              navigate("/");
+            }}
+          />
+        )}
+
+        {success === false && (
+          <ErrorFeedback
+            onComplete={() => {
+              setSuccess(null);
+            }}
+          />
+        )}
+
+        {success === null && (
+          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+            <h4 className="text-2xl font-medium text-neutral-900 font-display">
+              Entre na sua conta
+            </h4>
+
+            <Input
+              label="Seu email"
               type="email"
-              name="email"
-              id="email"
-              className="bg-neutral-50 border border-neutral-300 text-neutral-900 text-sm rounded-lg focus:ring-neutral-500 focus:border-neutral-500 block w-full p-2.5"
-              placeholder="name@company.com"
+              placeholder="usuario@provedor.com.br"
+              errorMessage={errors.email?.message}
+              {...register("email")}
             />
-          </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block mb-2 text-sm font-medium text-neutral-900 dark:text-neutral-300"
-            >
-              Sua senha
-            </label>
-            <input
-              required
-              {...register("password", { required: true })}
+
+            <Input
+              label="Sua senha"
               type="password"
-              name="password"
-              id="password"
               placeholder="••••••••"
-              className="bg-neutral-50 border border-neutral-300 text-neutral-900 text-sm rounded-lg focus:ring-neutral-500 focus:border-neutral-500 block w-full p-2.5"
+              errorMessage={errors.password?.message}
+              {...register("password")}
             />
-          </div>
-          <div className="flex items-start">
+
             <div className="flex items-start">
-              <div className="flex items-center h-5">
-                <input
-                  id="remember"
-                  type="checkbox"
-                  value=""
-                  className="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300"
-                />
+              <div className="flex items-start">
+                <div className="flex items-center h-5">
+                  <input
+                    id="remember"
+                    type="checkbox"
+                    value=""
+                    className="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300"
+                  />
+                </div>
+                <label
+                  htmlFor="remember"
+                  className="ml-2 text-sm font-medium text-neutral-900"
+                >
+                  Lembrar-me
+                </label>
               </div>
-              <label
-                htmlFor="remember"
-                className="ml-2 text-sm font-medium text-neutral-900"
+              <a
+                href="#"
+                className="ml-auto text-sm text-blue-700 hover:underline"
               >
-                Lembrar-me
-              </label>
+                Esqueceu a senha?
+              </a>
             </div>
-            <a
-              href="#"
-              className="ml-auto text-sm text-blue-700 hover:underline"
-            >
-              Esqueceu a senha?
-            </a>
-          </div>
-          <button
-            type="submit"
-            className="w-full text-light bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-          >
-            Entrar na sua conta
-          </button>
-          <div className="text-sm font-medium text-neutral-500">
-            Não está registrado?{" "}
-            <a href="#" className="text-primary-700 hover:underline">
-              Crie uma conta
-            </a>
-          </div>
-        </form>
+            <Button type="submit" className="w-full">
+              Entrar na sua conta
+            </Button>
+            <div className="text-sm font-medium text-neutral-500">
+              Não está registrado?{" "}
+              <Link to="/register" className="text-primary-700 hover:underline">
+                Crie uma conta
+              </Link>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );

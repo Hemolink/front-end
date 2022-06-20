@@ -6,6 +6,8 @@ import { MenuIcon } from "@heroicons/react/outline";
 import { route } from "../../pages";
 
 export const Header = () => {
+  // TODO: https://egreb.net/blog/react-auth-with-react-query-and-axios/
+
   return (
     <Popover className="relative bg-background">
       <div className="max-w-7x1 mx-auto px-4 sm:px-6">
