@@ -1,11 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Popover } from "@headlessui/react";
 import { MenuIcon } from "@heroicons/react/outline";
 
 import { route } from "../../pages";
 import { useAuth } from "../../hooks";
 import UserThumbSource from "../../assets/user-thumb.jpg";
+import { MenuItem } from "./MenuItem";
 
 export const Header = () => {
   const { isLoggedIn, user, logout } = useAuth();
@@ -15,18 +16,14 @@ export const Header = () => {
       <div className="max-w-7x1 mx-auto px-4 sm:px-6">
         <div className="flex justify-between items-center border-b-2 border-neutral-100 py-6 md:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1">
-            <Link
-              to={route.home}
-              className="text-base font-medium text-neutral-600 hover:text-neutral-900"
-            >
+            <MenuItem to={route.home} hideMarker>
               <span className="sr-only">HemoLink</span>
               <img
                 className="h-8 w-auto sm:h-10"
                 src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                 alt="HemoLink"
               />
-            </Link>
-            <a href="#"></a>
+            </MenuItem>
           </div>
           <div className="-mr-2 -my-2 md:hidden">
             <Popover.Button className="bg-light rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
@@ -36,32 +33,12 @@ export const Header = () => {
           </div>
 
           <Popover.Group as="nav" className="hidden md:flex space-x-10">
-            <Link
-              to={route.home}
-              className="text-base font-medium text-neutral-600 hover:text-neutral-900"
-            >
-              Home
-            </Link>
-            {isLoggedIn && (
-              <Link
-                to={route.appointment}
-                className="text-base font-medium text-neutral-600 hover:text-neutral-900"
-              >
-                Agendamento
-              </Link>
-            )}
-            <Link
-              to={route.donate}
-              className="text-base font-medium text-neutral-600 hover:text-neutral-900"
-            >
-              Porque Doar
-            </Link>
-            <Link
-              to={route.about}
-              className="text-base font-medium text-neutral-600 hover:text-neutral-900"
-            >
-              Sobre
-            </Link>
+            <MenuItem to={route.home}>Home</MenuItem>
+            <MenuItem to={route.appointment} privateRoute>
+              Agendamento
+            </MenuItem>
+            <MenuItem to={route.donate}>Porque Doar</MenuItem>
+            <MenuItem to={route.about}>Sobre</MenuItem>
           </Popover.Group>
 
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
@@ -104,9 +81,6 @@ export const Header = () => {
                   >
                     Sair
                   </p>
-                  {/* <p className="hover:bg-neutral-50 text-center py-2 cursor-pointer">
-                    Ronaldo
-                  </p> */}
                 </Popover.Panel>
               </Popover>
             )}
