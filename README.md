@@ -16,16 +16,16 @@
 ### Homepage
 
 - [x] Colocar as imagens do carousel e avaliar se não vai haver quebra
-- [ ] Corrigir quebra carousel
-- [ ] Ativar passagem altomatica de imagem no carousel
-- [ ] Estilizar seção de notícias
-- [ ] Estilizar banco de sangue
-- [ ] Atualizar mostrador do nível de banco de sangue
-- [ ] Conectar com endpoint da API (banco de sangue)
+- [x] Corrigir quebra carousel
+- [x] Ativar passagem altomatica de imagem no carousel
+- [x] Estilizar seção de notícias
+- [x] Estilizar banco de sangue
+- [x] Atualizar mostrador do nível de banco de sangue
+- [x] Conectar com endpoint da API (banco de sangue)
 
 ### Agendamento
 
-- [ ] Proteger rota apenas para usuario logado
+- [x] Proteger rota apenas para usuario logado
 - [ ] Estilização
 - [ ] Gerenciamento de estado do form
 - [ ] Padronização das interações (hover, pressed, focus)
@@ -35,6 +35,4 @@
 - [ ] Garantir campos obrigatórios
 - [ ] Password confirmation tratado no frontend
 
-<!-- https://heroicons.com/ -->
-<!-- https://headlessui.dev/react/ -->
-<!-- https://tailwindui.com/ -->
+

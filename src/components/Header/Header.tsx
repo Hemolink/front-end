@@ -4,9 +4,11 @@ import { Popover } from "@headlessui/react";
 import { MenuIcon } from "@heroicons/react/outline";
 
 import { route } from "../../pages";
+import { useAuth } from "../../hooks";
+import UserThumbSource from "../../assets/user-thumb.jpg";
 
 export const Header = () => {
-  // TODO: https://egreb.net/blog/react-auth-with-react-query-and-axios/
+  const { isLoggedIn, user, logout } = useAuth();
 
   return (
     <Popover className="relative bg-background">
@@ -40,12 +42,14 @@ export const Header = () => {
             >
               Home
             </Link>
-            <Link
-              to={route.appointment}
-              className="text-base font-medium text-neutral-600 hover:text-neutral-900"
-            >
-              Agendamento
-            </Link>
+            {isLoggedIn && (
+              <Link
+                to={route.appointment}
+                className="text-base font-medium text-neutral-600 hover:text-neutral-900"
+              >
+                Agendamento
+              </Link>
+            )}
             <Link
               to={route.donate}
               className="text-base font-medium text-neutral-600 hover:text-neutral-900"
@@ -61,18 +65,51 @@ export const Header = () => {
           </Popover.Group>
 
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-            <Link
-              to={route.login}
-              className="whitespace-nowrap text-base font-medium text-neutral-600 hover:text-neutral-900"
-            >
-              Entrar
-            </Link>
-            <Link
-              to={route.register}
-              className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-light bg-primary-600 hover:bg-primary-700"
-            >
-              Registrar
-            </Link>
+            {!isLoggedIn && (
+              <>
+                <Link
+                  to={route.login}
+                  className="whitespace-nowrap text-base font-medium text-neutral-600 hover:text-neutral-900"
+                >
+                  Entrar
+                </Link>
+                <Link
+                  to={route.register}
+                  className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-light bg-primary-600 hover:bg-primary-700"
+                >
+                  Registrar
+                </Link>
+              </>
+            )}
+            {isLoggedIn && (
+              <Popover className="relative">
+                <Popover.Button className="flex gap-4 items-center hover:opacity-90 cursor-pointer">
+                  <div className="flex rounded-full overflow-hidden h-12 w-12 ">
+                    <img
+                      src={UserThumbSource}
+                      alt={user?.name}
+                      title={user?.name}
+                    />
+                  </div>
+                  <div>
+                    <span className="text-base font-medium text-neutral-600 ">
+                      {user?.name}
+                    </span>
+                  </div>
+                </Popover.Button>
+                <Popover.Panel className="absolute z-10 bg-light border border-neutral-200 shadow-md rounded-md py-2 mt-2 flex flex-col w-full">
+                  <p
+                    onClick={logout}
+                    className="hover:bg-neutral-50 text-center py-2 cursor-pointer"
+                  >
+                    Sair
+                  </p>
+                  {/* <p className="hover:bg-neutral-50 text-center py-2 cursor-pointer">
+                    Ronaldo
+                  </p> */}
+                </Popover.Panel>
+              </Popover>
+            )}
           </div>
         </div>
       </div>

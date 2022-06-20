@@ -36,7 +36,25 @@ export const useRegister = () => {
   return response;
 };
 
-export const login = (email: string) =>
+// export const useLogin = () => {
+//   const queryClient = useQueryClient();
+
+//   const response = useMutation(
+//     (email: string) =>
+//       api
+//         .get<LoginResponse>(`/doador/e/${email}`)
+//         .then((res) => loginMapper(res.data)),
+//     {
+//       onSuccess: () => {
+//         queryClient.invalidateQueries("donor");
+//       },
+//     }
+//   );
+
+//   return response;
+// };
+
+export const loginRequest = async (email: string) =>
   api
     .get<LoginResponse>(`/doador/e/${email}`)
     .then((res) => loginMapper(res.data));

@@ -5,10 +5,10 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Button, Input } from "../components";
-import { login } from "../api";
 import { SuccessFeedback } from "../components/Feedback";
 import { ErrorFeedback } from "../components/Feedback/ErrorFeedback";
-import { useQueryClient } from "react-query";
+import { useAuth } from "../hooks";
+import { route } from ".";
 
 type LoginFormData = {
   email: string;
@@ -23,6 +23,9 @@ const validationSchema = Yup.object().shape({
 });
 
 export const Login = () => {
+  const { login, logout, error } = useAuth();
+  const navigate = useNavigate();
+
   const formOptions = { resolver: yupResolver(validationSchema) };
   const {
     handleSubmit,
@@ -30,44 +33,24 @@ export const Login = () => {
     formState: { errors },
   } = useForm<LoginFormData>(formOptions);
 
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
-
-  const [success, setSuccess] = React.useState<boolean | null>(null);
-
-  const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
-    console.log(data);
-
-    const response = await login(data.email);
-
-    if (response.password === data.password) {
-      setSuccess(true);
-      queryClient.invalidateQueries("donors");
-    } else {
-      setSuccess(false);
-    }
+  const onSubmit: SubmitHandler<LoginFormData> = (data) => {
+    login(data.email, data.password);
   };
 
   return (
     <div className="flex justify-center items-center h-full">
       <div className="p-4 w-96 bg-light rounded-lg border border-neutral-200 shadow-md sm:p-6 lg:p-8">
-        {success === true && (
+        {error === false && (
           <SuccessFeedback
             onComplete={() => {
-              navigate("/");
+              navigate(route.home);
             }}
           />
         )}
 
-        {success === false && (
-          <ErrorFeedback
-            onComplete={() => {
-              setSuccess(null);
-            }}
-          />
-        )}
+        {error === true && <ErrorFeedback onComplete={logout} />}
 
-        {success === null && (
+        {error === null && (
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <h4 className="text-2xl font-medium text-neutral-900 font-display">
               Entre na sua conta

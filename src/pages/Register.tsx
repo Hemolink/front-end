@@ -9,6 +9,8 @@ import { Button, Input } from "../components";
 import { LoadingFeedback, SuccessFeedback } from "../components/Feedback";
 import { Select } from "../components/Select";
 import { useNavigate } from "react-router-dom";
+import { cpfMask } from "../utils";
+import { route } from ".";
 
 interface RegisterFormData {
   name: string;
@@ -105,7 +107,7 @@ export const Register = () => {
           <div className="flex flex-col gap-8 items-center">
             <SuccessFeedback />
             <p className="text-xl">Usuário criado com sucesso!</p>
-            <Button className="w-full" onClick={() => navigate("/")}>
+            <Button className="w-full" onClick={() => navigate(route.home)}>
               Voltar à página inicial
             </Button>
           </div>
@@ -146,6 +148,7 @@ export const Register = () => {
                   label="Seu CPF"
                   placeholder="123.456.789-00"
                   errorMessage={errors.cpf?.message}
+                  mask={cpfMask}
                   {...register("cpf")}
                 />
                 <Input
