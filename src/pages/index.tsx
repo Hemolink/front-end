@@ -6,6 +6,7 @@ import { Donate } from "./Donate";
 import { Home } from "./Home";
 import { Layout } from "./Layout";
 import { Login } from "./Login";
+import { Quiz } from "./Quiz";
 import { Register } from "./Register";
 
 export const route = {
@@ -15,6 +16,7 @@ export const route = {
   appointment: "/agendamento",
   login: "/login",
   register: "/register",
+  quiz: "/quiz",
 };
 
 export const Routes = () => {
@@ -29,6 +31,7 @@ export const Routes = () => {
           <Route path={route.appointment} element={<Appointment />} />
           <Route path={route.login} element={<Login />} />
           <Route path={route.register} element={<Register />} />
+          <Route path={route.quiz} element={<Quiz />} />
         </RouterRoutes>
       </Layout>
     </>

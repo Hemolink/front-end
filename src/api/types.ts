@@ -53,4 +53,7 @@ export interface DonorResponse {
 export interface LoginResponse {
   idDoador: number;
   senha: string;
+  nome: string;
 }
+
+export type AvailableHoursResponse = string[];

@@ -26,11 +26,6 @@ export const useAuth = create<AuthStoreType>((set) => ({
   login: async (email: string, password: string) => {
     const response = await loginRequest(email);
 
-    console.log({
-      response: response.password,
-      password,
-    });
-
     if (response.password !== password) {
       set((state) => ({ ...state, error: true }));
     } else {
@@ -41,7 +36,7 @@ export const useAuth = create<AuthStoreType>((set) => ({
         user: {
           id: response.id,
           email,
-          name: "Vanderli",
+          name: response.name,
         },
       }));
     }

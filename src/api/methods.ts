@@ -3,6 +3,7 @@ import { bloodMapper, donorMapper, loginMapper } from "./mappers";
 import { api } from "./services";
 
 import {
+  AvailableHoursResponse,
   Blood,
   BloodResponse,
   Donor,
@@ -40,3 +41,17 @@ export const loginRequest = async (email: string) =>
   api
     .get<LoginResponse>(`/doador/e/${email}`)
     .then((res) => loginMapper(res.data));
+
+export const useAvailableHoursAppointment = (date: Date) => {
+  const response = useQuery<AvailableHoursResponse>(
+    ["appointmentHours", date],
+    () =>
+      api
+        .get<AvailableHoursResponse>("/agenda", {
+          params: { data: date.toISOString() },
+        })
+        .then((res) => res.data)
+  );
+
+  return response;
+};

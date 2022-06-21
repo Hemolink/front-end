@@ -78,7 +78,6 @@ export const Register = () => {
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<RegisterFormData> = (data) => {
-    console.log(data);
     return registerDonor.mutateAsync(data);
   };
 

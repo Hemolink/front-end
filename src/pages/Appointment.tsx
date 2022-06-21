@@ -1,10 +1,9 @@
 import TextField from "@mui/material/TextField";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import React from "react";
+import { useAvailableHoursAppointment } from "../api";
 import { Button } from "../components";
 import { TimeSelector } from "../components/TimeSelector";
-
-interface Props {}
 
 const mock = [
   {
@@ -21,30 +20,25 @@ const mock = [
   },
 ];
 
-export const Appointment = ({}: Props) => {
-  const [value, setValue] = React.useState<Date | null>(null);
+export const Appointment = () => {
+  const [value, setValue] = React.useState<Date>(new Date());
+  const { data, isLoading } = useAvailableHoursAppointment(value);
+
+  const availableHours =
+    data?.map((item, index) => ({
+      id: index,
+      text: new Intl.DateTimeFormat("pt-BR", {
+        hour: "numeric",
+        minute: "numeric",
+      }).format(new Date(item)),
+    })) ?? [];
 
   return (
     <>
-      {/* <h1 className="text-3xl my-5 ">Agendamento</h1> */}
-      <div className="grid grid-cols-2 ">
-        <section className="content-center">
-          <DatePicker
-            label="Data"
-            value={value}
-            onChange={(newValue) => {
-              setValue(newValue);
-            }}
-            renderInput={(params) => (
-              <TextField {...params} variant="standard" />
-            )}
-          />
-          <TimeSelector availableHours={mock} />
-          <Button>Agendar</Button>
-        </section>
-        <section className=" text-primary-900">
-          <h2 className="text-2xl my-8 text-center">Informações importantes</h2>
-          <p className="text-xl">
+      <div className="grid grid-cols-5 gap-6 h-full font-display">
+        <section className=" text-neutral-900 col-span-3 p-6 text-lg">
+          <h2 className="text-2xl mb-8">Informações importantes</h2>
+          <p className="text-lg">
             O preenchimento do e-mail não é obrigatório. Porém, ao informá-lo
             você receberá uma mensagem com todos os dados do agendamento
             realizado. É necessário guardar o número de protocolo para consultar
@@ -72,6 +66,33 @@ export const Appointment = ({}: Props) => {
             </li>
             <li>Para mais informações sobre este serviço, clique aqui.</li>
           </ul>
+        </section>
+
+        <section className="content-center p-6 col-span-2 bg-primary-600 text-light">
+          <h4 className="font-medium text-2xl pb-2 mb-8">Agende seu horário</h4>
+
+          <div className="flex flex-col">
+            <p className="block mb-2 text-sm font-display">Data</p>
+            <DatePicker
+              value={value}
+              onChange={(newValue) => {
+                setValue(newValue ?? new Date());
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  className="bg-neutral-50 border border-neutral-300 text-neutral-900 text-sm rounded-lg focus:ring-neutral-500 focus:border-neutral-500 block w-full p-2.5"
+                />
+              )}
+            />
+          </div>
+
+          <TimeSelector availableHours={availableHours} />
+
+          <div className="flex justify-end">
+            <Button className="font-bold">Avançar</Button>
+          </div>
         </section>
       </div>
     </>

@@ -22,4 +22,5 @@ export const donorMapper = (input: Donor) => ({
 export const loginMapper = (response: LoginResponse) => ({
   id: response.idDoador,
   password: response.senha,
+  name: response.nome,
 });

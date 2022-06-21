@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { LoadingFeedback } from "../Feedback";
 
 interface TimeSelectorProps {
   availableHours: Array<{
     id: number;
     text: string;
   }>;
+  isLoading?: boolean;
 }
 
 interface ItemProps {
@@ -16,29 +18,38 @@ interface ItemProps {
 
 const Item = ({ id, text, selected, onClick }: ItemProps) => (
   <div
-    className={`bg-primary-100 py-1 px-2 rounded cursor-pointer text-primary-900 font-semibold hover:bg-primary-50 my-7 ${
+    className={`bg-primary-100 py-1 px-2 rounded text-center cursor-pointer text-primary-900 font-semibold hover:bg-primary-50 ${
       selected ? "bg-primary-800 text-neutral-50 hover:bg-primary-500" : ""
     }`}
     onClick={() => onClick(id)}
   >
-    <span>{text}</span>
+    <p>{text}</p>
   </div>
 );
 
-export const TimeSelector = ({ availableHours }: TimeSelectorProps) => {
+export const TimeSelector = ({
+  availableHours,
+  isLoading,
+}: TimeSelectorProps) => {
   const [selectedItem, setSelectedItem] = useState(-1);
 
   return (
-    <div className="flex gap-2">
-      {availableHours.map((item) => (
-        <Item
-          key={item.id}
-          id={item.id}
-          text={item.text}
-          onClick={setSelectedItem}
-          selected={selectedItem === item.id}
-        />
-      ))}
+    <div className="my-8 flex flex-col">
+      <p className="block mb-2 text-sm font-display">Horários disponíveis</p>
+      {isLoading && <LoadingFeedback />}
+      {!isLoading && (
+        <div className="grid  grid-cols-6 gap-2">
+          {availableHours.map((item) => (
+            <Item
+              key={item.id}
+              id={item.id}
+              text={item.text}
+              onClick={setSelectedItem}
+              selected={selectedItem === item.id}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
