@@ -26,13 +26,9 @@ export const Appointment = () => {
       date: new Date(item),
     })) ?? [];
 
-  console.log({ availableHours });
-
   const onNext = () => {
     const date = availableHours[timeSelected].date;
     setDate(date);
-
-    console.log(date);
 
     navigate(route.quiz);
   };

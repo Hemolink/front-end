@@ -24,7 +24,7 @@ export interface Donor {
   weight: number;
 }
 
-export interface DonorRequest {
+export interface DonorPayload {
   nome: String;
   sobrenome: string;
   dataNascimento: string;
@@ -57,3 +57,33 @@ export interface LoginResponse {
 }
 
 export type AvailableHoursResponse = string[];
+
+export interface AppointmentPayload {
+  donorId: number;
+  date: string;
+}
+
+export interface QuizPayload {
+  donorId: number;
+  alcohol: boolean;
+  cold: boolean;
+  fever: boolean;
+  chestPain: boolean;
+  aids: boolean;
+  covid: boolean;
+  fainting: boolean;
+  convulsion: boolean;
+  heartAttack: boolean;
+  dengue: boolean;
+  std: boolean;
+  zika: boolean;
+  cancer: boolean;
+  drugs: boolean;
+  smoke: boolean;
+  sexWithoutProtection: boolean;
+  prostitution: boolean;
+  sexWithAnotherMan: boolean;
+  pregnancy: boolean;
+  childbirth: boolean;
+  breastFeeding: boolean;
+}

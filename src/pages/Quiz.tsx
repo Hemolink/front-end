@@ -6,6 +6,13 @@ import * as Yup from "yup";
 
 import { Button } from "../components";
 import { Radio } from "../components/Radio";
+import { submitAppointmentRequest, submitQuizRequest } from "../api";
+import { useAppointmentData, useAuth } from "../hooks";
+import { SuccessFeedback } from "../components/Feedback";
+import { route } from ".";
+import { useNavigate } from "react-router-dom";
+import { ErrorFeedback } from "../components/Feedback/ErrorFeedback";
+import axios, { AxiosError } from "axios";
 
 // TODO:
 // - custom hook para gerenciar estado de agendamento + questionario
@@ -100,6 +107,15 @@ const options = [
 
 export const Quiz = () => {
   const [currentStep, setCurrentStep] = useState(0);
+  const [submissionError, setSubmissionError] = useState<boolean | null>(null);
+  const [errorMessage, setErrorMessage] = useState(
+    "Houve um erro na requisição, por favor, tente novamente!"
+  );
+
+  const { user } = useAuth();
+  const { date } = useAppointmentData();
+  const navigate = useNavigate();
+
   const formOptions = { resolver: yupResolver(validationSchemas[currentStep]) };
   const {
     handleSubmit,
@@ -108,8 +124,33 @@ export const Quiz = () => {
     formState: { errors, isSubmitSuccessful },
   } = useForm<QuizFormData>(formOptions);
 
-  const onSubmit: SubmitHandler<QuizFormData> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<QuizFormData> = async (data) => {
+    const quizPayload = {
+      ...data,
+      donorId: user?.id ?? 0,
+    };
+
+    const appointmentPayload = {
+      donorId: user?.id ?? 0,
+      date: date?.toISOString() ?? "",
+    };
+
+    try {
+      await Promise.all([
+        submitQuizRequest(quizPayload),
+        submitAppointmentRequest(appointmentPayload),
+      ]);
+
+      setSubmissionError(false);
+    } catch (err: unknown | AxiosError) {
+      if (axios.isAxiosError(err) && err.response?.status === 401) {
+        setErrorMessage(
+          "Infelizmente você não atende os requisitos para doar sangue, tente novamente em 3 meses!"
+        );
+      }
+
+      setSubmissionError(true);
+    }
   };
 
   const handleStepChange = (type: "next" | "back") => async () => {
@@ -125,220 +166,240 @@ export const Quiz = () => {
   return (
     <div className="flex justify-center items-center h-full">
       <div className="p-4 w-[800px] bg-light rounded-lg border border-neutral-200 shadow-md sm:p-6 lg:p-8">
-        <form className="space-y-6">
-          <h4 className="text-2xl font-medium text-neutral-900 font-display">
-            Avaliação de Risco
-          </h4>
+        {submissionError === false && (
+          <SuccessFeedback
+            onComplete={() => {
+              navigate(route.home);
+            }}
+          />
+        )}
 
-          <Stepper activeStep={currentStep} alternativeLabel>
-            {steps.map((step) => {
-              return (
-                <Step key={step}>
-                  <StepLabel>
-                    <span className="font-bold font-display">{step}</span>
-                  </StepLabel>
-                </Step>
-              );
-            })}
-          </Stepper>
+        {submissionError === true && (
+          <>
+            <ErrorFeedback />
+            <p>{errorMessage}</p>
+          </>
+        )}
 
-          {currentStep === 0 && (
-            <>
-              <Radio
-                title="Fez uso de bebida alcoólica?"
-                options={options}
-                errorMessage={errors.alcohol?.message}
-                name="alcohol"
-                register={register}
-              />
-              <Radio
-                title="Está ou esteve resfriado ou gripado nos ultimos 15 dias?"
-                options={options}
-                errorMessage={errors.cold?.message}
-                name="cold"
-                register={register}
-              />
-              <Radio
-                title="Teve febre nos ultimos 30 dias?"
-                options={options}
-                errorMessage={errors.fever?.message}
-                name="fever"
-                register={register}
-              />
-              <Radio
-                title="Teve dor no peito quando faz esforço?"
-                options={options}
-                errorMessage={errors.chestPain?.message}
-                name="chestPain"
-                register={register}
-              />
-              <Radio
-                title="Já fez teste para AIDS?"
-                options={options}
-                errorMessage={errors.aids?.message}
-                name="aids"
-                register={register}
-              />
-              <Radio
-                title="Suspeita de COVID-19?"
-                options={options}
-                errorMessage={errors.covid?.message}
-                name="covid"
-                register={register}
-              />
-            </>
-          )}
+        {submissionError === null && (
+          <form className="space-y-6">
+            <h4 className="text-2xl font-medium text-neutral-900 font-display">
+              Avaliação de Risco
+            </h4>
 
-          {currentStep === 1 && (
-            <>
-              <Radio
-                title="Desmaio?"
-                options={options}
-                errorMessage={errors.fainting?.message}
-                name="fainting"
-                register={register}
-              />
-              <Radio
-                title="Convulsão?"
-                options={options}
-                errorMessage={errors.convulsion?.message}
-                name="convulsion"
-                register={register}
-              />
-              <Radio
-                title="Derrame?"
-                options={options}
-                errorMessage={errors.heartAttack?.message}
-                name="heartAttack"
-                register={register}
-              />
-              <Radio
-                title="Dengue?"
-                options={options}
-                errorMessage={errors.dengue?.message}
-                name="dengue"
-                register={register}
-              />
-              <Radio
-                title="IST?"
-                options={options}
-                errorMessage={errors.std?.message}
-                name="std"
-                register={register}
-              />
-              <Radio
-                title="Zika?"
-                options={options}
-                errorMessage={errors.zika?.message}
-                name="zika"
-                register={register}
-              />
-              <Radio
-                title="Câncer?"
-                options={options}
-                errorMessage={errors.cancer?.message}
-                name="cancer"
-                register={register}
-              />
-            </>
-          )}
+            <Stepper activeStep={currentStep} alternativeLabel>
+              {steps.map((step) => {
+                return (
+                  <Step key={step}>
+                    <StepLabel>
+                      <span className="font-bold font-display">{step}</span>
+                    </StepLabel>
+                  </Step>
+                );
+              })}
+            </Stepper>
 
-          {currentStep === 2 && (
-            <>
-              <Radio
-                title="Usa ou já usou droga proibida(tóxicos)?"
-                options={options}
-                errorMessage={errors.drugs?.message}
-                name="drugs"
-                register={register}
-              />
-              <Radio
-                title="Fuma?"
-                options={options}
-                errorMessage={errors.smoke?.message}
-                name="smoke"
-                register={register}
-              />
-              <Radio
-                title="Fez ou faz sexo sem proteção nos últimos 12 meses?"
-                options={options}
-                errorMessage={errors.sexWithoutProtection?.message}
-                name="sexWithoutProtection"
-                register={register}
-              />
-              <Radio
-                title="Teve relação sexual em casa de prostituição nós últimos 12 meses?"
-                options={options}
-                errorMessage={errors.prostitution?.message}
-                name="prostitution"
-                register={register}
-              />
-            </>
-          )}
+            {currentStep === 0 && (
+              <>
+                <Radio
+                  title="Fez uso de bebida alcoólica?"
+                  options={options}
+                  errorMessage={errors.alcohol?.message}
+                  name="alcohol"
+                  register={register}
+                />
+                <Radio
+                  title="Está ou esteve resfriado ou gripado nos ultimos 15 dias?"
+                  options={options}
+                  errorMessage={errors.cold?.message}
+                  name="cold"
+                  register={register}
+                />
+                <Radio
+                  title="Teve febre nos ultimos 30 dias?"
+                  options={options}
+                  errorMessage={errors.fever?.message}
+                  name="fever"
+                  register={register}
+                />
+                <Radio
+                  title="Teve dor no peito quando faz esforço?"
+                  options={options}
+                  errorMessage={errors.chestPain?.message}
+                  name="chestPain"
+                  register={register}
+                />
+                <Radio
+                  title="Já fez teste para AIDS?"
+                  options={options}
+                  errorMessage={errors.aids?.message}
+                  name="aids"
+                  register={register}
+                />
+                <Radio
+                  title="Suspeita de COVID-19?"
+                  options={options}
+                  errorMessage={errors.covid?.message}
+                  name="covid"
+                  register={register}
+                />
+              </>
+            )}
 
-          {currentStep === 3 && (
-            <>
-              <Radio
-                title="Teve relação sexual com outro homem nos últimos 12 meses?"
-                options={options}
-                errorMessage={errors.sexWithAnotherMan?.message}
-                name="sexWithAnotherMan"
-                register={register}
-              />
-              <Radio
-                title="Está grávida no momento?"
-                options={options}
-                errorMessage={errors.pregnancy?.message}
-                name="pregnancy"
-                register={register}
-              />
-              <Radio
-                title="Teve parto nos últimos 6 meses?"
-                options={options}
-                errorMessage={errors.childbirth?.message}
-                name="childbirth"
-                register={register}
-              />
-              <Radio
-                title="Está amamentando?"
-                options={options}
-                errorMessage={errors.breastFeeding?.message}
-                name="breastFeeding"
-                register={register}
-              />
-            </>
-          )}
+            {currentStep === 1 && (
+              <>
+                <Radio
+                  title="Desmaio?"
+                  options={options}
+                  errorMessage={errors.fainting?.message}
+                  name="fainting"
+                  register={register}
+                />
+                <Radio
+                  title="Convulsão?"
+                  options={options}
+                  errorMessage={errors.convulsion?.message}
+                  name="convulsion"
+                  register={register}
+                />
+                <Radio
+                  title="Derrame?"
+                  options={options}
+                  errorMessage={errors.heartAttack?.message}
+                  name="heartAttack"
+                  register={register}
+                />
+                <Radio
+                  title="Dengue?"
+                  options={options}
+                  errorMessage={errors.dengue?.message}
+                  name="dengue"
+                  register={register}
+                />
+                <Radio
+                  title="IST?"
+                  options={options}
+                  errorMessage={errors.std?.message}
+                  name="std"
+                  register={register}
+                />
+                <Radio
+                  title="Zika?"
+                  options={options}
+                  errorMessage={errors.zika?.message}
+                  name="zika"
+                  register={register}
+                />
+                <Radio
+                  title="Câncer?"
+                  options={options}
+                  errorMessage={errors.cancer?.message}
+                  name="cancer"
+                  register={register}
+                />
+              </>
+            )}
 
-          {currentStep < 3 && (
-            <div className="flex justify-between gap-4">
-              {currentStep > 0 && (
+            {currentStep === 2 && (
+              <>
+                <Radio
+                  title="Usa ou já usou droga proibida(tóxicos)?"
+                  options={options}
+                  errorMessage={errors.drugs?.message}
+                  name="drugs"
+                  register={register}
+                />
+                <Radio
+                  title="Fuma?"
+                  options={options}
+                  errorMessage={errors.smoke?.message}
+                  name="smoke"
+                  register={register}
+                />
+                <Radio
+                  title="Fez ou faz sexo sem proteção nos últimos 12 meses?"
+                  options={options}
+                  errorMessage={errors.sexWithoutProtection?.message}
+                  name="sexWithoutProtection"
+                  register={register}
+                />
+                <Radio
+                  title="Teve relação sexual em casa de prostituição nós últimos 12 meses?"
+                  options={options}
+                  errorMessage={errors.prostitution?.message}
+                  name="prostitution"
+                  register={register}
+                />
+              </>
+            )}
+
+            {currentStep === 3 && (
+              <>
+                <Radio
+                  title="Teve relação sexual com outro homem nos últimos 12 meses?"
+                  options={options}
+                  errorMessage={errors.sexWithAnotherMan?.message}
+                  name="sexWithAnotherMan"
+                  register={register}
+                />
+                <Radio
+                  title="Está grávida no momento?"
+                  options={options}
+                  errorMessage={errors.pregnancy?.message}
+                  name="pregnancy"
+                  register={register}
+                />
+                <Radio
+                  title="Teve parto nos últimos 6 meses?"
+                  options={options}
+                  errorMessage={errors.childbirth?.message}
+                  name="childbirth"
+                  register={register}
+                />
+                <Radio
+                  title="Está amamentando?"
+                  options={options}
+                  errorMessage={errors.breastFeeding?.message}
+                  name="breastFeeding"
+                  register={register}
+                />
+              </>
+            )}
+
+            {currentStep < 3 && (
+              <div className="flex justify-between gap-4">
+                {currentStep > 0 && (
+                  <Button
+                    className="flex-grow bg-transparent text-primary-600 hover:text-primary-700 hover:bg-primary-100"
+                    onClick={handleStepChange("back")}
+                  >
+                    Anterior
+                  </Button>
+                )}
+                <Button
+                  className="flex-grow"
+                  onClick={handleStepChange("next")}
+                >
+                  Próximo
+                </Button>
+              </div>
+            )}
+
+            {currentStep === 3 && (
+              <div className="flex justify-between gap-4">
                 <Button
                   className="flex-grow bg-transparent text-primary-600 hover:text-primary-700 hover:bg-primary-100"
                   onClick={handleStepChange("back")}
                 >
                   Anterior
                 </Button>
-              )}
-              <Button className="flex-grow" onClick={handleStepChange("next")}>
-                Próximo
-              </Button>
-            </div>
-          )}
-
-          {currentStep === 3 && (
-            <div className="flex justify-between gap-4">
-              <Button
-                className="flex-grow bg-transparent text-primary-600 hover:text-primary-700 hover:bg-primary-100"
-                onClick={handleStepChange("back")}
-              >
-                Anterior
-              </Button>
-              <Button onClick={handleSubmit(onSubmit)} className="flex-grow">
-                Marcar Agendamento
-              </Button>
-            </div>
-          )}
-        </form>
+                <Button onClick={handleSubmit(onSubmit)} className="flex-grow">
+                  Marcar Agendamento
+                </Button>
+              </div>
+            )}
+          </form>
+        )}
       </div>
     </div>
   );

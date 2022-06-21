@@ -9,7 +9,6 @@ import { Button, Input } from "../components";
 import { LoadingFeedback, SuccessFeedback } from "../components/Feedback";
 import { Select } from "../components/Select";
 import { useNavigate } from "react-router-dom";
-import { cpfMask } from "../utils";
 import { route } from ".";
 
 interface RegisterFormData {
@@ -41,7 +40,7 @@ const validationSchemas = [
         /([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/,
         "Por favor, digite um CPF válido"
       ),
-    birthDate: Yup.string().required("Campo Data de Nascimento é obrigatório"),
+    birthDate: Yup.date().required("Campo Data de Nascimento é obrigatório"),
     sex: Yup.string().required("Campo Sexo é obrigatório"),
   }),
   Yup.object().shape({
@@ -147,7 +146,6 @@ export const Register = () => {
                   label="Seu CPF"
                   placeholder="123.456.789-00"
                   errorMessage={errors.cpf?.message}
-                  // mask={cpfMask}
                   {...register("cpf")}
                 />
                 <Input
