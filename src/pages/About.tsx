@@ -7,7 +7,9 @@ type Props = {};
 export const About = (props: Props) => {
   return (
     <div>
-      <h2 className="text-xl my-2 text-center text-primary-900">HemoLink</h2>
+      <p>
+        <img className="" src={hemolinkSobre} alt="porque Doar" />
+      </p>
       <p className="text-lg">
         HemoLink é um sistema utilizado para gerenciar e fornecer soluções de
         doação de sangue para o Hemominas. Conectamos pessoas doadoras aos
@@ -22,10 +24,11 @@ export const About = (props: Props) => {
         quanto mais doações forem feitas melhor será a estabilidade dos bancos
         sanguíneos.
       </p>
-      <p>
-        <img className="" src={hemolinkSobre} alt="porque Doar" />
+
+      <p className="flex justify-center">
+        <img src={hemominasSobre} alt="porque Doar" />
       </p>
-      <h2 className="text-xl my-2 text-center text-primary-900">Hemominas</h2>
+
       <p className="text-lg">
         Instituída em 26 de dezembro de 1989, através da Lei n° 10.057, a
         Fundação Centro de Hematologia e Hemoterapia do Estado de Minas Gerais -
@@ -39,9 +42,6 @@ export const About = (props: Props) => {
         Hospitalar do Estado de Minas Gerais (Fhemig), a Fundação Hemominas
         segue as diretrizes técnicas e legais do Ministério da Saúde e da
         Agência Nacional de Vigilância Sanitária (Anvisa).
-      </p>
-      <p className="flex justify-center">
-        <img src={hemominasSobre} alt="porque Doar" />
       </p>
     </div>
   );

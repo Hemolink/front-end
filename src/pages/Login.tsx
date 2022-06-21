@@ -9,7 +9,6 @@ import { SuccessFeedback } from "../components/Feedback";
 import { ErrorFeedback } from "../components/Feedback/ErrorFeedback";
 import { useAuth } from "../hooks";
 import { route } from ".";
-import { DevTool } from "@hookform/devtools";
 
 type LoginFormData = {
   email: string;
@@ -113,7 +112,6 @@ export const Login = () => {
                 Crie uma conta
               </Link>
             </div>
-            <DevTool control={control} />
           </form>
         )}
       </div>
