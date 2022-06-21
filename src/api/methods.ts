@@ -48,7 +48,7 @@ export const useAvailableHoursAppointment = (date: Date) => {
     () =>
       api
         .get<AvailableHoursResponse>("/agenda", {
-          params: { data: date.toISOString() },
+          params: { date: date.toISOString() },
         })
         .then((res) => res.data)
   );

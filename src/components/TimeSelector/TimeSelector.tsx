@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { LoadingFeedback } from "../Feedback";
 
 interface TimeSelectorProps {
@@ -7,6 +7,8 @@ interface TimeSelectorProps {
     text: string;
   }>;
   isLoading?: boolean;
+  onSelect: (id: number) => void;
+  selectedId: number;
 }
 
 interface ItemProps {
@@ -30,26 +32,24 @@ const Item = ({ id, text, selected, onClick }: ItemProps) => (
 export const TimeSelector = ({
   availableHours,
   isLoading,
-}: TimeSelectorProps) => {
-  const [selectedItem, setSelectedItem] = useState(-1);
-
-  return (
-    <div className="my-8 flex flex-col">
-      <p className="block mb-2 text-sm font-display">Horários disponíveis</p>
-      {isLoading && <LoadingFeedback />}
-      {!isLoading && (
-        <div className="grid  grid-cols-6 gap-2">
-          {availableHours.map((item) => (
-            <Item
-              key={item.id}
-              id={item.id}
-              text={item.text}
-              onClick={setSelectedItem}
-              selected={selectedItem === item.id}
-            />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
+  selectedId,
+  onSelect,
+}: TimeSelectorProps) => (
+  <div className="my-8 flex flex-col">
+    <p className="block mb-2 text-sm font-display">Horários disponíveis</p>
+    {isLoading && <LoadingFeedback />}
+    {!isLoading && (
+      <div className="grid  grid-cols-6 gap-2">
+        {availableHours.map((item) => (
+          <Item
+            key={item.id}
+            id={item.id}
+            text={item.text}
+            onClick={onSelect}
+            selected={selectedId === item.id}
+          />
+        ))}
+      </div>
+    )}
+  </div>
+);

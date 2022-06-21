@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
@@ -7,10 +7,13 @@ import { useAvailableHoursAppointment } from "../api";
 import { TimeSelector } from "../components/TimeSelector";
 import { useNavigate } from "react-router-dom";
 import { route } from ".";
+import { useAppointmentData } from "../hooks";
 
 export const Appointment = () => {
-  const [value, setValue] = React.useState<Date>(new Date());
-  const { data, isLoading } = useAvailableHoursAppointment(value);
+  const [dateSelected, setDateSelected] = useState<Date>(new Date());
+  const [timeSelected, setTimeSelected] = useState<number>(-1);
+  const { data, isLoading } = useAvailableHoursAppointment(dateSelected);
+  const { setDate } = useAppointmentData();
   const navigate = useNavigate();
 
   const availableHours =
@@ -20,7 +23,19 @@ export const Appointment = () => {
         hour: "numeric",
         minute: "numeric",
       }).format(new Date(item)),
+      date: new Date(item),
     })) ?? [];
+
+  console.log({ availableHours });
+
+  const onNext = () => {
+    const date = availableHours[timeSelected].date;
+    setDate(date);
+
+    console.log(date);
+
+    navigate(route.quiz);
+  };
 
   return (
     <>
@@ -63,9 +78,9 @@ export const Appointment = () => {
           <div className="flex flex-col">
             <p className="block mb-2 text-sm font-display">Data</p>
             <DatePicker
-              value={value}
+              value={dateSelected}
               onChange={(newValue) => {
-                setValue(newValue ?? new Date());
+                setDateSelected(newValue ?? new Date());
               }}
               renderInput={(params) => (
                 <TextField
@@ -77,10 +92,15 @@ export const Appointment = () => {
             />
           </div>
 
-          <TimeSelector availableHours={availableHours} isLoading={isLoading} />
+          <TimeSelector
+            selectedId={timeSelected}
+            onSelect={setTimeSelected}
+            availableHours={availableHours}
+            isLoading={isLoading}
+          />
 
           <div className="flex justify-end">
-            <Button className="font-bold" onClick={() => navigate(route.quiz)}>
+            <Button className="font-bold" onClick={onNext}>
               Avançar
             </Button>
           </div>
