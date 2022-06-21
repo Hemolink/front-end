@@ -7,6 +7,7 @@ import { route } from "../../pages";
 import { useAuth } from "../../hooks";
 import UserThumbSource from "../../assets/user-thumb.jpg";
 import { MenuItem } from "./MenuItem";
+import logo from "../../assets/logo.png";
 
 export const Header = () => {
   const { isLoggedIn, user, logout } = useAuth();
@@ -19,7 +20,7 @@ export const Header = () => {
             <MenuItem to={route.home} hideMarker>
               <span className="sr-only">HemoLink</span>
               <img
-                className="h-8 w-auto sm:h-10"
+                className="h-40 w-auto sm:h-10 fill"
                 src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                 alt="HemoLink"
               />

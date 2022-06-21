@@ -1,6 +1,6 @@
 import React from "react";
 import hemominasSobre from "../assets/about/Hemominas-sobre.png";
-import hemolinkSobre from "../assets/about/hemolink-sobre.png";
+import hemolinkSobre from "../assets/about/hemolinkSobre.png";
 
 type Props = {};
 
@@ -23,9 +23,8 @@ export const About = (props: Props) => {
         sanguíneos.
       </p>
       <p>
-        <img src={hemolinkSobre} alt="porque Doar" />
+        <img className="" src={hemolinkSobre} alt="porque Doar" />
       </p>
-
       <h2 className="text-xl my-2 text-center text-primary-900">Hemominas</h2>
       <p className="text-lg">
         Instituída em 26 de dezembro de 1989, através da Lei n° 10.057, a
@@ -41,7 +40,7 @@ export const About = (props: Props) => {
         segue as diretrizes técnicas e legais do Ministério da Saúde e da
         Agência Nacional de Vigilância Sanitária (Anvisa).
       </p>
-      <p>
+      <p className="flex justify-center">
         <img src={hemominasSobre} alt="porque Doar" />
       </p>
     </div>
