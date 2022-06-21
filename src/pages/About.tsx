@@ -1,5 +1,6 @@
 import React from "react";
-import sobreHemolink from "../assets/bolsa-sobre-hemolink.jpg";
+import hemominasSobre from "../assets/about/Hemominas-sobre.png";
+import hemolinkSobre from "../assets/about/hemolink-sobre.png";
 
 type Props = {};
 
@@ -22,7 +23,7 @@ export const About = (props: Props) => {
         sanguíneos.
       </p>
       <p>
-        <img src={sobreHemolink} alt="porque Doar" />
+        <img src={hemolinkSobre} alt="porque Doar" />
       </p>
 
       <h2 className="text-xl my-2 text-center text-primary-900">Hemominas</h2>
@@ -41,7 +42,7 @@ export const About = (props: Props) => {
         Agência Nacional de Vigilância Sanitária (Anvisa).
       </p>
       <p>
-        <img src={sobreHemolink} alt="porque Doar" />
+        <img src={hemominasSobre} alt="porque Doar" />
       </p>
     </div>
   );

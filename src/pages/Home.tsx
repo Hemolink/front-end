@@ -11,8 +11,10 @@ import { newsData } from "../content/news";
 import { useGetBloodLevels } from "../api";
 
 import Banner from "../assets/carousel/banner_site_doador.png";
-import Banner2 from "../assets/carousel/banner_Hemo.jpg";
-import Banner3 from "../assets/carousel/banner_doacao.jpeg";
+import Banner2 from "../assets/carousel/banner_agendamento_doacao_sangue_1.jpg";
+import Banner3 from "../assets/carousel/cta_banco_sangue_1.jpg";
+//import Banner2 from "../assets/carousel/banner_Hemo.jpg";
+//import Banner3 from "../assets/carousel/banner_doacao.jpeg";
 
 export const Home = () => {
   const { isLoading, data } = useGetBloodLevels();

@@ -53,7 +53,10 @@ export const Appointment = () => {
             <li>
               A idade para doação de sangue é entre 16 e 69 anos. Jovens de 16 e
               17 anos e maiores de 60 anos devem consultar condições especiais
-              clicando aqui.
+              <a href="http://www.hemominas.mg.gov.br/doacao-e-atendimento-ambulatorial/doacao-de-sangue/orientacoes-sobre-doacao#doacao-de-sangue-por-pessoas-de-16-17-e-acima-de-60-anos">
+                clicando aqui
+              </a>
+              .
             </li>
             <li>
               Quem já doou, deve observar o prazo entre doações de sangue.
@@ -62,13 +65,26 @@ export const Appointment = () => {
             </li>
             <li>
               Saiba mais sobre os critérios adicionais para a doação de sangue
-              referentes ao COVID-19, clicando aqui.
+              referentes ao COVID-19,
+              <a href="http://www.hemominas.mg.gov.br/destaques/3452-doacao-de-sangue-novas-orientacoes">
+                clicando aqui
+              </a>
+              .
             </li>
             <li>
               Para saber as condições e restrições para a doação de sangue,
-              clique aqui.
+              <a href="http://www.hemominas.mg.gov.br/doacao-e-atendimento-ambulatorial/doacao-de-sangue/condicoes-e-restricoes">
+                clicando aqui
+              </a>
+              .
             </li>
-            <li>Para mais informações sobre este serviço, clique aqui.</li>
+            <li>
+              Para mais informações sobre este serviço,
+              <a href="https://www.mg.gov.br/servico/doar-sangue">
+                clicando aqui
+              </a>
+              .
+            </li>
           </ul>
         </section>
 
