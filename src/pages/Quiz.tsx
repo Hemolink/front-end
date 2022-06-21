@@ -7,6 +7,13 @@ import * as Yup from "yup";
 import { Button } from "../components";
 import { Radio } from "../components/Radio";
 
+// TODO:
+// - custom hook para gerenciar estado de agendamento + questionario
+// - mexer no backend para unir requests (ou pedir broca/guedes)
+// - conectar back + front para quiz
+// - feedback para usuario
+// - revisar design da tela de porque doar e sobre
+
 interface QuizFormData {
   // General questions
   alcohol: boolean;

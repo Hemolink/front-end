@@ -6,23 +6,11 @@ export interface InputProps
   name: string;
   required?: boolean;
   errorMessage?: string;
-  mask?: (input: string) => string;
+  register?: any;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, name, errorMessage, mask, onChange, ...props }, ref) => {
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const newEvent = {
-        ...event,
-        target: {
-          ...event.target,
-          value: mask ? mask(event.target.value) : event.target.value,
-        },
-      };
-
-      onChange?.(newEvent);
-    };
-
+  ({ label, name, errorMessage, register, ...props }, ref) => {
     return (
       <div>
         <label
@@ -33,8 +21,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           {...props}
           ref={ref}
           name={name}
-          onChange={handleChange}
           className="bg-neutral-50 border border-neutral-300 text-neutral-900 text-sm rounded-lg focus:ring-neutral-500 focus:border-neutral-500 block w-full p-2.5"
+          {...register?.(name)}
         />
         {errorMessage && <div className="text-sm ">{errorMessage}</div>}
       </div>

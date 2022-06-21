@@ -9,6 +9,7 @@ import { SuccessFeedback } from "../components/Feedback";
 import { ErrorFeedback } from "../components/Feedback/ErrorFeedback";
 import { useAuth } from "../hooks";
 import { route } from ".";
+import { DevTool } from "@hookform/devtools";
 
 type LoginFormData = {
   email: string;
@@ -30,6 +31,7 @@ export const Login = () => {
   const {
     handleSubmit,
     register,
+    control,
     formState: { errors },
   } = useForm<LoginFormData>(formOptions);
 
@@ -57,19 +59,22 @@ export const Login = () => {
             </h4>
 
             <Input
+              autoFocus
               label="Seu email"
               type="email"
+              name="email"
               placeholder="usuario@provedor.com.br"
               errorMessage={errors.email?.message}
-              {...register("email")}
+              register={register}
             />
 
             <Input
               label="Sua senha"
               type="password"
+              name="password"
               placeholder="••••••••"
               errorMessage={errors.password?.message}
-              {...register("password")}
+              register={register}
             />
 
             <div className="flex items-start">
@@ -101,10 +106,14 @@ export const Login = () => {
             </Button>
             <div className="text-sm font-medium text-neutral-500">
               Não está registrado?{" "}
-              <Link to="/register" className="text-primary-700 hover:underline">
+              <Link
+                to={route.register}
+                className="text-primary-700 hover:underline"
+              >
                 Crie uma conta
               </Link>
             </div>
+            <DevTool control={control} />
           </form>
         )}
       </div>

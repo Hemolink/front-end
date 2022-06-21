@@ -147,7 +147,7 @@ export const Register = () => {
                   label="Seu CPF"
                   placeholder="123.456.789-00"
                   errorMessage={errors.cpf?.message}
-                  mask={cpfMask}
+                  // mask={cpfMask}
                   {...register("cpf")}
                 />
                 <Input

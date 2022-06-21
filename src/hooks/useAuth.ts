@@ -24,21 +24,25 @@ export const useAuth = create<AuthStoreType>((set) => ({
     email: "",
   },
   login: async (email: string, password: string) => {
-    const response = await loginRequest(email);
+    try {
+      const response = await loginRequest(email);
 
-    if (response.password !== password) {
+      if (response.password !== password) {
+        set((state) => ({ ...state, error: true }));
+      } else {
+        set((state) => ({
+          ...state,
+          isLoggedIn: true,
+          error: false,
+          user: {
+            id: response.id,
+            email,
+            name: response.name,
+          },
+        }));
+      }
+    } catch (error) {
       set((state) => ({ ...state, error: true }));
-    } else {
-      set((state) => ({
-        ...state,
-        isLoggedIn: true,
-        error: false,
-        user: {
-          id: response.id,
-          email,
-          name: response.name,
-        },
-      }));
     }
   },
   logout: () =>
