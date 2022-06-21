@@ -1,28 +1,17 @@
+import React from "react";
 import TextField from "@mui/material/TextField";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import React from "react";
-import { useAvailableHoursAppointment } from "../api";
-import { Button } from "../components";
-import { TimeSelector } from "../components/TimeSelector";
 
-const mock = [
-  {
-    id: 1,
-    text: "8:00",
-  },
-  {
-    id: 2,
-    text: "9:00",
-  },
-  {
-    id: 3,
-    text: "10:00",
-  },
-];
+import { Button } from "../components";
+import { useAvailableHoursAppointment } from "../api";
+import { TimeSelector } from "../components/TimeSelector";
+import { useNavigate } from "react-router-dom";
+import { route } from ".";
 
 export const Appointment = () => {
   const [value, setValue] = React.useState<Date>(new Date());
   const { data, isLoading } = useAvailableHoursAppointment(value);
+  const navigate = useNavigate();
 
   const availableHours =
     data?.map((item, index) => ({
@@ -88,10 +77,12 @@ export const Appointment = () => {
             />
           </div>
 
-          <TimeSelector availableHours={availableHours} />
+          <TimeSelector availableHours={availableHours} isLoading={isLoading} />
 
           <div className="flex justify-end">
-            <Button className="font-bold">Avançar</Button>
+            <Button className="font-bold" onClick={() => navigate(route.quiz)}>
+              Avançar
+            </Button>
           </div>
         </section>
       </div>
