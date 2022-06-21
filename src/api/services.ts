@@ -1,5 +1,6 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "https://localhost:7275/api", // TODO: change to .env
+  baseURL: "https://hemolink.herokuapp.com/api",
+  // baseURL: "https://localhost:7275/api",
 });

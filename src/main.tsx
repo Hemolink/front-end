@@ -19,7 +19,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         dateAdapter={AdapterDateFns}
         adapterLocale={brLocale}
       >
-        <BrowserRouter>
+        <BrowserRouter basename="/front-end/">
           <Routes />
         </BrowserRouter>
       </LocalizationProvider>
